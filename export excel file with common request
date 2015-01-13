@@ -1,0 +1,18 @@
+<%@ Page Language="C#" ValidateRequest="false"  %>
+
+
+<script runat="server">
+    protected void Page_Load(object s, EventArgs e) {
+        string execlName = "MyExcel";
+        Encoding encodingType = System.Text.Encoding.UTF8;
+
+        Response.Buffer = true;
+        Response.Charset = "utf-8";
+        Response.AppendHeader("Content-Disposition", "attachment;filename=" + execlName + ".xls");
+        Response.ContentEncoding = encodingType;
+        Response.ContentType = "application/ms-excel";
+        Response.Write(Request.Params[0]);//the request.params[0] represent the excel table of you wanto export
+        Response.Flush();
+        Response.Close(); 
+    }
+</script>

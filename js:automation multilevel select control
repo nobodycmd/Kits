@@ -1,4 +1,6 @@
 
+<script src='//code.jquery.com/ui/1.11.1/jquery-ui.js'></script>
+
 <script>
     /*
     domId require param  : select's wrap container's id

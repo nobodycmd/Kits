@@ -1,5 +1,4 @@
-
-<script src='//code.jquery.com/ui/1.11.1/jquery-ui.js'></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 
 <script>
     /*
@@ -10,7 +9,6 @@
         //pid means the parent select's v's value,i think i should change the name pid to pv
         //v means the value of the select and t means the text of the select
         this._data = [{pid:0,v:'0',t:'A1'},{pid:0,v:'1',t:'A2'},{pid:'0',v:'3',t:'B1'}];
-
         this._wrap = $("#"+domId);
 
         //restore the selected value and it's all parent value
@@ -107,5 +105,5 @@
 </script>
 <div id='a'></div>
 <div id='b'></div>
-<button onclick='AutoMultilevelSelects("b",'3')'>create one multilevels selects of choosed value is '3'</button>
-<script>AutoMultilevelSelects("a",'');</script>
+<button onclick="AutoMultilevelSelects('b','3')">create one multilevels selects of choosed value is '3'</button>
+<script>window.onload = function(){AutoMultilevelSelects('a','');}</script>

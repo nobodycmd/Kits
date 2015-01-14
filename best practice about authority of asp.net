@@ -65,7 +65,7 @@ public class Access:IHttpModule
             {
                 application.Context.Response.Write(@"
                 <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-                <script>alert('you are not authorized');history.go(-1);</script>");
+                <script>alert('you are not authorized');</script>");
                 application.CompleteRequest();
                 return;
             }

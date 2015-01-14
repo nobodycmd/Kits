@@ -45,7 +45,7 @@ public class Access:IHttpModule
             string accessPath = application.Context.Request.Path.ToLower();
 
             
-            //if the resoures of request it's static files,it's okay
+            //if the resoures of request is static files,it's okay
             if (accessPath.IndexOf("/content/") == 0 || accessPath.IndexOf("/__browserlink/") == 0 || accessPath.IndexOf("/css/") == 0 ||
                 accessPath.IndexOf("/html/") == 0 || accessPath.IndexOf("/js/") == 0 ||
                 accessPath.IndexOf("/scripts/") == 0)

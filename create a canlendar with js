@@ -1,0 +1,89 @@
+<p>
+you need jquery library
+</p>
+
+<table id="CalendarTable" style="border: 1px solid #CAE8EA;">
+    <tr class="hd">
+        <th width="63px" class="sunday">
+            日</th>
+        <th width="63px">
+            一</th>
+        <th width="63px">
+            二</th>
+        <th width="63px">
+            三</th>
+        <th width="63px">
+            四</th>
+        <th width="63px">
+            五</th>
+        <th width="63px" class="saturday">
+            六</th>
+    </tr>
+    <%for (int i = 1; i <= 6; i++)
+      { %>
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <%} %>
+</table>
+
+<script>
+var FillCalendar = function (_now) {
+        if (!_now)
+            _now = new Date();
+        $("#CalendarTable td.hadmark").removeClass().removeAttr("date").html("");
+        var _start_date = new Date(_now.getFullYear(), _now.getMonth(), 1);
+        var _end_date = new Date(_now.getFullYear(), _now.getMonth() + 1, 0);
+        var _date_n_s = Number(_start_date.getDate());
+        var _date_n_e = Number(_end_date.getDate());
+        //the right td element
+        var _right_td;
+        //the number of should be marked,here is almost the index number of js date.
+        var _td_no = 0;
+        //service for _last_mark_td,let me make a logic judge
+        var _had_beginning_mark = false;
+        //record the last td element be marked to let me easy to find the next td element
+        var _last_mark_td;
+
+        //from the begin to the end of days of the month
+        while (_date_n_s <= _date_n_e) {
+            _now.setDate(_date_n_s);
+            
+            if (!_had_beginning_mark) {
+                _td_no = _now.getDay();
+                _right_td = $("#CalendarTable tr[class!='hd']").eq(0).find("td").eq(_td_no);
+                _had_beginning_mark = true;
+            } else {
+                _last_mark_td = $("#CalendarTable td[class='hadmark']").last();
+                //find the next td element of need to marked
+                if (_last_mark_td.next().get(0)) {
+                    _right_td = _last_mark_td.next();
+                } else {
+                    _right_td = _last_mark_td.parent().next().find("td").eq(0);
+                }
+            }
+
+            //make a mark to the td,maybe is useful
+            _right_td.addClass("hadmark");
+            
+            //fill something into the td element,you can fill anything else of you need accord with you business requirment
+            _right_td.append("<b>" + String(_date_n_s) + "</b>");
+            
+            //move to tommorow
+            _date_n_s++;
+        }
+    }
+</script>

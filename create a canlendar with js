@@ -5,19 +5,19 @@ you need jquery library
 <table id="CalendarTable" style="border: 1px solid #CAE8EA;">
     <tr class="hd">
         <th width="63px" class="sunday">
-            日</th>
+            Sunday</th>
         <th width="63px">
-            一</th>
+            Monday</th>
         <th width="63px">
-            二</th>
+            Tuesday</th>
         <th width="63px">
-            三</th>
+            Wednesday</th>
         <th width="63px">
-            四</th>
+            Thursday</th>
         <th width="63px">
-            五</th>
+            Friday</th>
         <th width="63px" class="saturday">
-            六</th>
+            Saturday</th>
     </tr>
     <%for (int i = 1; i <= 6; i++)
       { %>

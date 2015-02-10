@@ -47,8 +47,8 @@ namespace HttpProtocol
         static string HttpPost(string url,string data)
         {
             socket = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.IP);
-            StringBuilder sb_receive = new StringBuilder();
             socket.Blocking = true;
+            StringBuilder sb_receive = new StringBuilder();
             socket.Connect(new Uri(url).Host, new Uri(url).Port);
             if (socket.Connected)
             {
@@ -58,6 +58,7 @@ namespace HttpProtocol
 
                 //Header
                 sb_request.Append("Host:" + new Uri(url).Host + (new Uri(url).Port == 80 ? string.Empty : ":" + new Uri(url).Port.ToString()) + "\r\n");
+                sb_request.Append("Connection:Close\r\n");
 
                 //additional header info to post in header part
                 sb_request.Append("Content-Type: application/x-www-form-urlencoded\r\n");
@@ -80,7 +81,7 @@ namespace HttpProtocol
                 int bytes = 0;
                 while (true)
                 {
-                    bytes = socket.Receive(receive_stand, receive_stand.Length, System.Net.Sockets.SocketFlags.None);
+                    bytes = socket.Receive(receive_stand);
                     if (bytes <= 0)
                         break;
                     sb_receive.Append(encoding.GetString(receive_stand.Take(bytes).ToArray<byte>()));
@@ -94,8 +95,8 @@ namespace HttpProtocol
         static string HttpGet(string url)
         {
             socket = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.IP);
-            StringBuilder sb_receive = new StringBuilder();
             socket.Blocking = true;
+            StringBuilder sb_receive = new StringBuilder();
             socket.Connect(new Uri(url).Host, new Uri(url).Port);
             if (socket.Connected)
             {
@@ -105,6 +106,7 @@ namespace HttpProtocol
 
                 //Header
                 sb_request.Append("Host:" + new Uri(url).Host + (new Uri(url).Port == 80 ? string.Empty : ":" + new Uri(url).Port.ToString()) + "\r\n");
+                sb_request.Append("Connection:Close\r\n");//very important,or the socket will block to wait the response of the server
 
                 //enter carriage return code+line feed code
                 //tell server the header info is complete
@@ -114,8 +116,9 @@ namespace HttpProtocol
                 socket.Send(encoding.GetBytes(sb_request.ToString()));
                 byte[] receive_stand = new byte[1024];
                 int bytes = 0;
-                while (true) {
-                    bytes = socket.Receive(receive_stand, receive_stand.Length, System.Net.Sockets.SocketFlags.None);
+                while (true)
+                {
+                    bytes = socket.Receive(receive_stand);
                     if (bytes <= 0)
                         break;
                     sb_receive.Append(encoding.GetString(receive_stand.Take(bytes).ToArray<byte>()));

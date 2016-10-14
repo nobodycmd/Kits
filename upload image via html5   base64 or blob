@@ -1,0 +1,169 @@
+<?php
+/**
+ * tow optional param
+ * $name
+ * $maxcount
+ */
+?>
+<style>
+    <!--
+    .filePanelA{
+        display:inline-block;  position:relative; overflow:hidden;
+    }
+    .filePanelA input{
+        position:absolute; right:0; top:0; font-size:100px; opacity:0; filter:alpha(opacity=0);
+    }
+    .filePanelA span{
+        top:0;
+        width:100%;
+        text-align:center;
+    }
+    
+    .ui-tag-freelimit::before {
+        background-color: #18b4ed;
+        content: "移除该图片";
+    	height:20px;
+    	line-height:20px;
+    	width:auto;
+    }
+    -->
+</style>
+<div>
+    <div id='wrapDisplay'></div>
+    <form id="j-form" target="ifr" action="/user/upload-image" method="post" enctype="multipart/form-data">
+        <a href="javascript:;" class='filePanelA'>
+            <input type="file" name="upfile" id="inputfile" style='opacity:0;width:100%;height:100%;top:0;' />
+            <span><?= isset($name)?$name:'选择图片上传' ?></span>
+        </a>
+    </form>
+</div>
+
+<script>
+    Image.prototype.getDataUrlOfSpecialSize = function(w){
+        var w = Math.min(w, this.width);
+        var h = this.height * (w / this.width);
+        if(w==this.width&&h==this.height){
+            return this.src;
+        }
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(this, 0, 0, w, h);
+        //get data of format base64
+        var dataURL = canvas.toDataURL('image/png');
+        return dataURL;
+    }
+
+    var maxCount=<?= isset($maxcount)?$maxcount:1 ?>;
+    var hadChoosed = 0;
+    var inputfile = document.getElementById("inputfile");
+    var result= document.getElementById("wrapDisplay")
+
+    if ( typeof(FileReader) === 'undefined' ){
+        result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！";
+        inputfile.setAttribute( 'disabled','disabled' );
+    } else {
+        inputfile.addEventListener('change',readFile,false);
+    }
+
+    function newFileDisplay(urlData){
+        result.innerHTML =
+            result.innerHTML +
+            '<div class="ui-grid-halve-img ui-tag-freelimit">' +
+            '<span style="background-image:url(' + urlData + ')"></span>'+
+                '<div style="position:relative;height:7px;margin-top:-7px;">' +
+                    '<span class="percent" style="height:7px;background-color: #00aa00;width:0%;display: none;position:absolute;z-index:3;"></span>' +
+                '</div>' +
+            '</div>';
+        
+        /*
+        result.innerHTML =
+            result.innerHTML +
+            '<div style="display: inline-block;">' +
+                '<img class="img" src="' + urlData + '"/>' +
+                '<div style="position:relative;height:7px;margin-top:-7px;">' +
+                    '<span class="percent" style="height:7px;background-color: #00aa00;width:0%;display: none;position:absolute;"></span>' +
+                '</div>' +
+            '</div>';
+        */
+    }
+
+    function readFile() {
+        var file = this.files[0];
+        if (!/image\/\w+/.test(file.type)) {
+            toptip("请图像文件");
+            return false;
+        }
+        if(hadChoosed==maxCount){
+            toptip("最多只能选"+maxCount+"张图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            var newImage = new Image();
+            newImage.src = this.result;
+            newImage.onload = function(){
+                hadChoosed++;
+                newFileDisplay(this.getDataUrlOfSpecialSize(400));
+            }
+        }
+    }
+
+    /**
+     * dataURL to blob, ref to https://gist.github.com/fupslot/5015897
+     * @param dataURI
+     * @returns {Blob}
+     */
+    function dataURItoBlob(dataURI) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], {type: mimeString});
+    }
+
+    function uploadDisplayFiles() {
+        $('#wrapDisplay img').each(function () {
+            var percentSpan = $(this).next().find('.percent');
+            percentSpan.show();
+            var dataURL = $(this).attr('src');
+            var fd = new FormData();
+            var blob = dataURItoBlob(dataURL);
+            fd.append('blob', blob);
+
+            $.ajax({
+                type: 'POST',
+                url: '/user/upload-image',
+                data: fd,
+                processData: false, // 不会将 data 参数序列化字符串
+                contentType: false, // 根据表单 input 提交的数据使用其默认的 contentType
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            percentSpan.css('width', percentComplete*100 + '%');
+                            console.log('进度', percentComplete);
+                        }
+                    }, false);
+
+                    return xhr;
+                },
+                success:function (res) {
+                    percentSpan.css('width', '100%');
+                },
+                error:function (err) {
+                    percentSpan.css('width', '0%');
+                    percentSpan.css('background-color', 'red');
+                    console.error(err);
+                }
+            });
+        });
+    }
+
+</script>

@@ -18,30 +18,38 @@
         width:100%;
         text-align:center;
     }
-    
-    .ui-tag-freelimit::before {
+    #wrapDisplay .del{
         background-color: #18b4ed;
-        content: "移除该图片";
     	height:20px;
     	line-height:20px;
     	width:auto;
+    	position:absolute;
+    	bottom:0px;
+    	right:0px;
     }
     -->
 </style>
+
 <div>
     <div id='wrapDisplay'></div>
-    <form id="j-form" target="ifr" action="/user/upload-image" method="post" enctype="multipart/form-data">
-        <a href="javascript:;" class='filePanelA'>
-            <input type="file" name="upfile" id="inputfile" style='opacity:0;width:100%;height:100%;top:0;' />
-            <span><?= isset($name)?$name:'选择图片上传' ?></span>
-        </a>
-    </form>
+    <a href="javascript:;" class='filePanelA'>
+        <input type="file" name="upfile" id="inputfile" style='opacity:0;width:100%;height:100%;top:0;' />
+        <span><?= isset($name)?$name:'选择图片上传' ?></span>
+    </a>
 </div>
 
 <script>
-    Image.prototype.getDataUrlOfSpecialSize = function(w){
-        var w = Math.min(w, this.width);
-        var h = this.height * (w / this.width);
+    Image.prototype.getDataUrlOfSpecialSize = function(size){
+        var w = this.width;
+        var h = this.height;
+        if(w>h){
+            w = Math.min(size, w);
+            h = h * (w / this.width);
+        }else if(w<h){
+            h = Math.min(size, h);
+            w = w * (h / this.height);
+        }
+        console.log('original w:'+this.width+'h:'+this.height+' now w:'+w+'h:'+h);
         if(w==this.width&&h==this.height){
             return this.src;
         }
@@ -67,28 +75,6 @@
         inputfile.addEventListener('change',readFile,false);
     }
 
-    function newFileDisplay(urlData){
-        result.innerHTML =
-            result.innerHTML +
-            '<div class="ui-grid-halve-img ui-tag-freelimit">' +
-            '<span style="background-image:url(' + urlData + ')"></span>'+
-                '<div style="position:relative;height:7px;margin-top:-7px;">' +
-                    '<span class="percent" style="height:7px;background-color: #00aa00;width:0%;display: none;position:absolute;z-index:3;"></span>' +
-                '</div>' +
-            '</div>';
-        
-        /*
-        result.innerHTML =
-            result.innerHTML +
-            '<div style="display: inline-block;">' +
-                '<img class="img" src="' + urlData + '"/>' +
-                '<div style="position:relative;height:7px;margin-top:-7px;">' +
-                    '<span class="percent" style="height:7px;background-color: #00aa00;width:0%;display: none;position:absolute;"></span>' +
-                '</div>' +
-            '</div>';
-        */
-    }
-
     function readFile() {
         var file = this.files[0];
         if (!/image\/\w+/.test(file.type)) {
@@ -111,58 +97,25 @@
         }
     }
 
-    /**
-     * dataURL to blob, ref to https://gist.github.com/fupslot/5015897
-     * @param dataURI
-     * @returns {Blob}
-     */
-    function dataURItoBlob(dataURI) {
-        var byteString = atob(dataURI.split(',')[1]);
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], {type: mimeString});
+    function removeFileFromDisplay(t){
+        $(t).parent().remove();
+        hadChoosed--;
+        inputfile.files.clear();//let the inputfile trigger change event
+    }
+    
+    function newFileDisplay(urlData){
+        result.innerHTML =
+            result.innerHTML +
+            '<div class="ui-grid-halve-img">' +
+                '<img class="img" src="' + urlData + '"/>'+
+                '<div class="del" onclick="removeFileFromDisplay(this)">移除该图片</div>' +
+            '</div>';
     }
 
+
     function uploadDisplayFiles() {
-        $('#wrapDisplay img').each(function () {
-            var percentSpan = $(this).next().find('.percent');
-            percentSpan.show();
+        $('#wrapDisplay .img').each(function () {
             var dataURL = $(this).attr('src');
-            var fd = new FormData();
-            var blob = dataURItoBlob(dataURL);
-            fd.append('blob', blob);
-
-            $.ajax({
-                type: 'POST',
-                url: '/user/upload-image',
-                data: fd,
-                processData: false, // 不会将 data 参数序列化字符串
-                contentType: false, // 根据表单 input 提交的数据使用其默认的 contentType
-                xhr: function () {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function (evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            percentSpan.css('width', percentComplete*100 + '%');
-                            console.log('进度', percentComplete);
-                        }
-                    }, false);
-
-                    return xhr;
-                },
-                success:function (res) {
-                    percentSpan.css('width', '100%');
-                },
-                error:function (err) {
-                    percentSpan.css('width', '0%');
-                    percentSpan.css('background-color', 'red');
-                    console.error(err);
-                }
-            });
         });
     }
 

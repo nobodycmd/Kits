@@ -5,5 +5,5 @@
 ($version就是相应的版本了，比如27.0.0,26.0.0,还可以26.+)
 
 ### ANDROID APK启动白屏
-* 通过打包 crosswalk 可解决
+* 通过打包 crosswalk 可解决,因为一些安卓不支持一些HTML5新标准（比如4.4低版本）
 cordova plugin add cordova-plugin-crosswalk-webview

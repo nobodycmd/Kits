@@ -1,5 +1,9 @@
 # CORDOVA 开发笔记
 
 ### 针对ANDROID编译环境统一指定
-cordova plugin add cordova-android-support-gradle-release --variable ANDROID_SUPPORT_VERSION=$version
+* cordova plugin add cordova-android-support-gradle-release --variable ANDROID_SUPPORT_VERSION=$version
 ($version就是相应的版本了，比如27.0.0,26.0.0,还可以26.+)
+
+### ANDROID APK启动白屏
+* 通过打包 crosswalk 可解决
+cordova plugin add cordova-plugin-crosswalk-webview

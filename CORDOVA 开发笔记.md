@@ -11,8 +11,9 @@ cordova plugin add cordova-plugin-crosswalk-webview
 
 
 ### APP ICON 生成网址，一键生成各尺寸ICON
-https://icon.wuruihong.com/
+* https://icon.wuruihong.com/
 
 
 ### 借助IONIC一键生成ICON 和 SPLASH
-[https://www.cnblogs.com/wancy86/p/7979337.html](https://www.cnblogs.com/wancy86/p/7979337.html)
+* [https://www.cnblogs.com/wancy86/p/7979337.html](https://www.cnblogs.com/wancy86/p/7979337.html)
+* 建议通过一个空壳IONIC项目来生成，因为IONIC将自动生成相应的配置内容和文件

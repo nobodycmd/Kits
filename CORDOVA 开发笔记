@@ -8,3 +8,8 @@
 * 将编译版本指定为比较新的版本  比如 28.0.0   27.0.0
 * <4.4下的低版本,通过打包 crosswalk 可解决,因为不支持HTML5新标准（比如<4.4的版本）
 cordova plugin add cordova-plugin-crosswalk-webview
+
+
+### APP ICON 生成网址，一键生成各尺寸ICON
+https://icon.wuruihong.com/
+

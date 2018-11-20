@@ -17,3 +17,16 @@ cordova plugin add cordova-plugin-crosswalk-webview
 ### 借助IONIC一键生成ICON 和 SPLASH
 * [https://www.cnblogs.com/wancy86/p/7979337.html](https://www.cnblogs.com/wancy86/p/7979337.html)
 * 建议通过一个空壳IONIC项目来生成，因为IONIC将自动生成相应的配置内容和文件
+
+### 启动错误捕捉显示
+
+    ``` javascript
+    window.onerror = function(msg, url, line) {  
+       var idx = url.lastIndexOf("/");  
+       if(idx > -1) {  
+        url = url.substring(idx+1);  
+       }  
+       alert("ERROR in " + url + " (line #" + line + "): " + msg);  
+       return false;  
+    };
+    ```

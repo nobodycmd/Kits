@@ -1,5 +1,9 @@
 # CORDOVA 开发笔记
 
+### Android platform 版本
+* cordova platform add android@6.4.0  因为最新的7.0.0存在默认路径问题以及可能和旧的一些插件不兼容
+
+
 ### 针对ANDROID编译环境统一指定
 * cordova plugin add cordova-android-support-gradle-release --variable ANDROID_SUPPORT_VERSION=$version
 ($version就是相应的版本了，比如28.0.0,27.0.0,还可以27.+)

@@ -36,3 +36,7 @@ cordova plugin add cordova-plugin-crosswalk-webview
 
 ### IOS浏览器选择
 * cordova plugin add CDVWKWebViewEngine
+
+### CORDOVA 热更新
+* 微软支持https://github.com/FanRongZhang/cordova-plugin-code-push
+* https://www.jianshu.com/p/77c003dfa200

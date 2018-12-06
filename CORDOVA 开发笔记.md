@@ -30,3 +30,9 @@ cordova plugin add cordova-plugin-crosswalk-webview
        return false;  
     };
     ```
+### ANDROID的浏览器选择
+* cordova plugin add cordova-plugin-x5-webview   腾讯，包小，视频，文件等支持都不错
+* cordova plugin add cordova-plugin-crosswalk-webview
+
+### IOS浏览器选择
+* cordova plugin add CDVWKWebViewEngine

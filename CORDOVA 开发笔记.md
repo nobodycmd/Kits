@@ -2,6 +2,7 @@
 
 ### 针对ANDROID编译环境统一指定
 * cordova plugin add cordova-android-support-gradle-release --variable ANDROID_SUPPORT_VERSION=$version
+* set ANDROID_SUPPORT_VERSION TO  27.+ is not bad now
 
 ### Android platform 版本
 * cordova platform add android@6.4.0  因为最新的7.0.0存在默认路径问题以及可能和旧的一些插件不兼容
@@ -38,3 +39,6 @@
 ### CORDOVA 热更新
 * 微软支持https://github.com/FanRongZhang/cordova-plugin-code-push
 * https://www.jianshu.com/p/77c003dfa200
+
+### 选择图片，视频上传插件
+cordova-plugin-mediapicker-dmcsdk   https://github.com/DmcSDK

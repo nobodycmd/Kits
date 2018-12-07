@@ -8,6 +8,9 @@
 * cordova platform add android@6.4.0  因为最新的7.0.0存在默认路径问题以及可能和旧的一些插件不兼容
 * after added.it will change the cordova-android-support-gradle-release plugin 's  setting (variable ANDROID_SUPPORT_VERSION)
 
+### ANDROID minSdkVersion and targetSdkVersion
+* <preference name="android-minSdkVersion" value="18" />
+* <preference name="android-targetSdkVersion" value="27"/>
 
 ### APP ICON 生成网址，一键生成各尺寸ICON
 * https://icon.wuruihong.com/

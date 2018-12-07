@@ -1,0 +1,5 @@
+懒得去看文档了，这里记下
+
+?imageMogr2/format/jpg/thumbnail/750x/blur/1x0/quality/90   （指定宽度750像素，质量90%，高度等比压缩）
+
+?vframe/jpg/offset/0/w/750   （在视频第1秒的位置截取宽度750像素的图片）

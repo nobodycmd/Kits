@@ -46,4 +46,7 @@
 * https://www.jianshu.com/p/77c003dfa200
 
 ### 选择图片，视频上传插件
-cordova-plugin-mediapicker-dmcsdk   https://github.com/DmcSDK
+* cordova-plugin-mediapicker-dmcsdk   https://github.com/DmcSDK
+
+### 视频播放插件
+* https://github.com/nchutchind/cordova-plugin-streaming-media

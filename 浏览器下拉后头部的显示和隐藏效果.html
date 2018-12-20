@@ -1,0 +1,35 @@
+<style>
+.header_no {
+    display:none;
+}
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 0.90rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    z-index: 9;
+}
+.header_show {
+    display:block;
+}
+</style>
+
+<div class="header header_no">
+  一些需要huadonghou xianshi de neirong 
+</div>
+todo : 改wei fei  jquery banben
+<script>
+	$(window).scroll(function(){
+	 var sc = $(window).scrollTop();
+	 if(sc> 0){
+		 $(".header").removeClass("header_no");
+		 $(".header").addClass("header_show");
+	 }else{
+		 $(".header").removeClass("header_show");
+		 $(".header").addClass("header_no");
+	 }
+	});	
+</script>

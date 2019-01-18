@@ -34,17 +34,10 @@ function c($filename){
     echo "file $filename is done". PHP_EOL;
 }
 
+//demo:
 foreach ([
              'C:\Users\Administrator\Desktop\jifenshop\index.php',
-             'C:\Users\Administrator\Desktop\jifenshop\controllers\block.php',
-             'C:\Users\Administrator\Desktop\jifenshop\controllers\goods.php',
-             'C:\Users\Administrator\Desktop\jifenshop\controllers\order.php',
-             'C:\Users\Administrator\Desktop\jifenshop\controllers\system.php',
-             'C:\Users\Administrator\Desktop\jifenshop\controllers\systemseller.php',
-             'C:\Users\Administrator\Desktop\jifenshop\controllers\systemadmin.php',
-
              'C:\Users\Administrator\Desktop\jifenshop\classes\menu.php',
-             'C:\Users\Administrator\Desktop\jifenshop\classes\model.php',
              'C:\Users\Administrator\Desktop\jifenshop\classes\goods_class.php',
          ] as $one){
     c($one);

@@ -1,0 +1,10 @@
+
+# choosing of android
+cordova platform rm android
+cordova platform add android@6.4.0     有一定的历史积累，很多插件的支持还算不错
+
+
+
+
+# flavorDimensions "default"
+* 文件 platforms/android/buld.gradle   defaultConfig 处进行添加

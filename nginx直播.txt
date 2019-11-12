@@ -1,0 +1,7 @@
+https://blog.csdn.net/gshzh00/article/details/90268365  在已经安装好的Nginx上增加新模块nginx-rtmp-module
+
+
+https://www.jianshu.com/p/aa7f9e204a62  centos7+nginx+rtmp+ffmpeg搭建流媒体服务器
+
+
+https://zhuanlan.zhihu.com/p/28009037

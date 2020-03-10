@@ -1,0 +1,66 @@
+<input type="file" onchange="update(this)" accept="video/*">
+
+<script>
+// 获取文件
+function update(file) {
+	if (file.files.length) {
+		getVideoImage(file.files[0], function(a) {
+			console.log(a);
+			var img = document.createElement('img');
+			img.title = a.currentTime;
+			img.src = a.url;
+			document.body.appendChild(img);
+		});
+	}
+	file.value = null;
+}
+
+
+// 文件转 图片 关键函数  异步
+function getVideoImage(file, call) {
+	if (file && file.type.indexOf('video/') == 0) {
+		var video = document.createElement('video');
+		video.src = URL.createObjectURL(file);
+		video.addEventListener('loadeddata', function() {
+			this.width = this.videoWidth;
+			this.height = this.videoHeight;
+			var canvas = document.createElement('canvas');
+			var ctx = canvas.getContext('2d');
+			canvas.width = this.width;
+			canvas.height = this.height;
+			ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+			var image = {
+				url: canvas.toDataURL('image/jpeg', 1),
+				width: this.width,
+				height: this.height,
+				currentTime: this.currentTime,
+				duration: this.duration
+			};
+			canvas.toBlob(function(blob) {
+				image.blob = blob;
+				typeof call == 'function' ? call.call(file, image) : console.log(image);
+			});
+		});
+	}
+}
+</script>
+
+返回数据如下：
+
+{
+    "url": "data:image/jpeg;base64,/9j/4AAQSk.......",
+    "width": 654,
+    "height": 368,
+    "currentTime": 0,
+    "duration": 187.14202,
+    "blob": Blob
+}
+其中 url为 Base64 Url 字符串 可用于  <img> src 本地提前展示
+
+blob 字段 为 Blob 对象 可以直接用于异步上传
+
+currentTime 为截图时间
+
+duration 视频时长
+
+更多需求参考 HTMLVideoElement  相关文档

@@ -1,0 +1,33 @@
+https://www.jianshu.com/p/5575893df1ed
+
+简单的五条命令即可：
+[1] sudo yum install epel-release
+[2] wget https://dl.eff.org/certbot-auto
+[3] chmod a+x certbot-auto
+[4] ./certbot-auto
+[5] ./certbot-auto certonly --standalone --email admin@example.com -d example.com -d www.example.com
+
+证书公钥路径：/etc/letsencrypt/live/athrob.com/fullchain.pem
+
+证书私钥路径：/etc/letsencrypt/live/athrob.com/privkey.pem
+
+#监听80端口，实现80端口到443端口的流量跳转
+
+server {
+  listen    80;
+  server_name    athrob.com;
+  return   301 https://$server_name$request_uri;
+}
+
+#nginx配置https信息，监听443端口
+
+server {
+    listen       443 ssl;
+    server_name  athrob.com;
+
+#  ssl                  on;
+    ssl_certificate      /etc/letsencrypt/live/athrob.com/fullchain.pem;
+    ssl_certificate_key  /etc/letsencrypt/live/athrob.com/privkey.pem;
+    ssl_session_timeout  5m;
+
+}

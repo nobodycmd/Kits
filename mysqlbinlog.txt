@@ -1,0 +1,2 @@
+
+mysqlbinlog --no-defaults --database=dbname   --base64-output=decode-rows -v --start-datetime='2020-08-22 12:18:00' --stop-datetime='2020-08-22 12:18:50'  mysql-bin.000209 | more
